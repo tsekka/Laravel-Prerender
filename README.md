@@ -32,6 +32,12 @@ You can disable the service by adding the following to your `.env` file:
 
 This may be useful for your local development environment.
 
+You can also prerender specific routes only by adding the following to your `.env` file:
+
+    PRERENDER_REGISTER_GLOBALLY=false
+
+ In that case you can register the prerender middleware in app/Http/Kernel.php and assign it to specific routes.
+
 ## How it works
 1. The middleware checks to make sure we should show a prerendered page
 	1. The middleware checks if the request is from a crawler (`_escaped_fragment_` or agent string)

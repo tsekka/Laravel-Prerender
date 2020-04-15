@@ -1,4 +1,5 @@
 <?php
+
 namespace Nutsweb\LaravelPrerender;
 
 
@@ -110,7 +111,7 @@ class PrerenderMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($this->shouldShowPrerenderedPage($request)) {
+        if (config('prerender.enable') && $this->shouldShowPrerenderedPage($request)) {
             $prerenderedResponse = $this->getPrerenderedPageResponse($request);
 
             if ($prerenderedResponse) {
@@ -200,22 +201,22 @@ class PrerenderMiddleware
 
         try {
             // Return the Guzzle Response
-        $host = $request->getHost();
+            $host = $request->getHost();
             $path = $request->Path();
             // Fix "//" 404 error
             if ($path == "/") {
                 $path = "";
             }
-            return $this->client->get($this->prerenderUri . '/' . urlencode($protocol.'://'.$host.'/'.$path), compact('headers'));
+            return $this->client->get($this->prerenderUri . '/' . urlencode($protocol . '://' . $host . '/' . $path), compact('headers'));
         } catch (RequestException $exception) {
-            if(!$this->returnSoftHttpCodes && !empty($exception->getResponse()) && $exception->getResponse()->getStatusCode() == 404) {
+            if (!$this->returnSoftHttpCodes && !empty($exception->getResponse()) && $exception->getResponse()->getStatusCode() == 404) {
                 \App::abort(404);
             }
             // In case of an exception, we only throw the exception if we are in debug mode. Otherwise,
             // we return null and the handle() method will just pass the request to the next middleware
             // and we do not show a prerendered page.
             // if ($this->app['config']->get('app.debug')) {
-                // throw $exception;
+            // throw $exception;
             // }
             return null;
         }
@@ -252,5 +253,4 @@ class PrerenderMiddleware
         }
         return false;
     }
-
 }

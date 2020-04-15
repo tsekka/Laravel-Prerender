@@ -13,6 +13,21 @@
 
     'enable' => env('PRERENDER_ENABLE', true),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Register prerender middleware globally
+    |--------------------------------------------------------------------------
+    |
+    | Set this to false if you do not want to register the middleware globally.
+    | In that case you can register the prerender middleware in app/Http/Kernel.php
+    | and assign it to specific routes.
+    |
+    */
+
+    'register_globally' => env('PRERENDER_REGISTER_GLOBALLY', true),
+
+
     /*
     |--------------------------------------------------------------------------
     | Prerender URL
