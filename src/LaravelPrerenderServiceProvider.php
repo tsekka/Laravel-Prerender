@@ -31,7 +31,7 @@ class LaravelPrerenderServiceProvider extends ServiceProvider
         if ($this->app['config']->get('prerender.enable')) {
             /** @var Kernel $kernel */
             $kernel = $this->app['Illuminate\Contracts\Http\Kernel'];
-            $kernel->pushMiddleware(PrerenderMiddleware::class);
+            // $kernel->pushMiddleware(PrerenderMiddleware::class);
         }
     }
 

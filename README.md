@@ -1,5 +1,3 @@
-#### For Laravel 4, use the [1.0 branch](https://github.com/JeroenNoten/Laravel-Prerender/tree/1.0)
-
 Laravel Prerender [![Build Status](https://travis-ci.org/JeroenNoten/Laravel-Prerender.svg?branch=master)](https://travis-ci.org/JeroenNoten/Laravel-Prerender)
 =========================== 
 

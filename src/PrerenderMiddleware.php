@@ -1,17 +1,16 @@
 <?php
-
-
 namespace Nutsweb\LaravelPrerender;
 
 
 use Closure;
 use Redirect;
-use GuzzleHttp\Exception\RequestException;
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Str;
 use GuzzleHttp\Client as Guzzle;
 use Psr\Http\Message\ResponseInterface;
-use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
+use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Contracts\Foundation\Application;
+use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 
 class PrerenderMiddleware
 {
@@ -152,7 +151,7 @@ class PrerenderMiddleware
 
         // prerender if a crawler is detected
         foreach ($this->crawlerUserAgents as $crawlerUserAgent) {
-            if (str_contains($userAgent, strtolower($crawlerUserAgent))) {
+            if (Str::contains($userAgent, strtolower($crawlerUserAgent))) {
                 $isRequestingPrerenderedPage = true;
             }
         }
@@ -196,9 +195,9 @@ class PrerenderMiddleware
         if ($this->prerenderToken) {
             $headers['X-Prerender-Token'] = $this->prerenderToken;
         }
-    
+
         $protocol = $request->isSecure() ? 'https' : 'http';
-    
+
         try {
             // Return the Guzzle Response
         $host = $request->getHost();
@@ -215,9 +214,9 @@ class PrerenderMiddleware
             // In case of an exception, we only throw the exception if we are in debug mode. Otherwise,
             // we return null and the handle() method will just pass the request to the next middleware
             // and we do not show a prerendered page.
-            if ($this->app['config']->get('app.debug')) {
-                throw $exception;
-            }
+            // if ($this->app['config']->get('app.debug')) {
+                // throw $exception;
+            // }
             return null;
         }
     }
@@ -246,7 +245,7 @@ class PrerenderMiddleware
 
         foreach ($list as $pattern) {
             foreach ($needles as $needle) {
-                if (str_is($pattern, $needle)) {
+                if (Str::is($pattern, $needle)) {
                     return true;
                 }
             }
